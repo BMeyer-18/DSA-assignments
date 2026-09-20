@@ -15,7 +15,7 @@ class Graph<VertexType> {
      */
     data class Vertex<VertexType>(val data: VertexType, val edges: MutableMap<VertexType, Double>)
 
-    val vertices = mutableSetOf<Vertex<VertexType>>()
+    private val vertices = mutableSetOf<Vertex<VertexType>>()
 
     /**
      * Return the vertices in the graph
@@ -31,6 +31,9 @@ class Graph<VertexType> {
      */
     fun addEdge(from: VertexType, to: VertexType, cost: Double) {
         val vertex1 = vertices.find {it.data == from}
+
+        if (vertices.find {it.data == to} == null)
+            vertices.add(Vertex(to, mutableMapOf()))
 
         if (vertex1 == null)
             vertices.add(Vertex(from, edges = mutableMapOf(to to cost)))
@@ -52,6 +55,6 @@ class Graph<VertexType> {
      * Remove all edges and vertices from the graph
      */
     fun clear() {
-        vertices.forEach { vertices.remove(it) }
+        vertices.clear()
     }
 }
