@@ -1,5 +1,7 @@
 package org.example
 
+import org.example.linked_data_structures.*
+
 /**
  * ``Graph`` represents a directed graph
  * @param VertexType the type that represents a vertex in the graph
@@ -56,5 +58,73 @@ class Graph<VertexType> {
      */
     fun clear() {
         vertices.clear()
+    }
+
+    /**
+     * Search through a graph using a breadth-first search
+     * @param start the node to start the search
+     * @param target the node to search for
+     * @return the path from start to target (if one exists) and null otherwise
+     */
+    fun breadthFirstSearch(start: VertexType, target: VertexType): List<VertexType>? {
+        val visited = mutableSetOf<VertexType>()
+        val map = mutableMapOf<VertexType, VertexType>()
+        val queue = Queue<VertexType>()
+        queue.enqueue(start)
+        visited.add(start)
+
+        while(!queue.isEmpty()) {
+            val vertex = queue.dequeue()!!
+            if (vertex == target)
+                break
+            getEdges(vertex).forEach { (edge, weight) ->
+                if (edge !in visited) {
+                    queue.enqueue(edge)
+                    visited.add(edge)
+                    map[edge] = vertex
+                }
+            }
+        }
+
+        if (target !in visited)
+            return null
+        val path = mutableListOf(target)
+        while (start !in path)
+            path.add(map[path.last()]!!)
+        return path.asReversed()
+    }
+
+    /**
+     * Search through a graph using a depth-first search
+     * @param start the node to start the search
+     * @param target the node to search for
+     * @return the path from start to target (if one exists) and null otherwise
+     */
+    fun depthFirstSearch(start: VertexType, target: VertexType): List<VertexType>? {
+        val visited = mutableSetOf<VertexType>()
+        val map = mutableMapOf<VertexType, VertexType>()
+        val stack = Stack<VertexType>()
+        stack.push(start)
+        visited.add(start)
+
+        while(!stack.isEmpty()) {
+            val vertex = stack.pop()!!
+            if (vertex == target)
+                break
+            getEdges(vertex).forEach { (edge, weight) ->
+                if (edge !in visited) {
+                    stack.push(edge)
+                    visited.add(edge)
+                    map[edge] = vertex
+                }
+            }
+        }
+
+        if (target !in visited)
+            return null
+        val path = mutableListOf(target)
+        while (start !in path)
+            path.add(map[path.last()]!!)
+        return path.asReversed()
     }
 }
