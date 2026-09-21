@@ -3,7 +3,6 @@ package org.example
 /**
  * ``Graph`` represents a directed graph
  * @param VertexType the type that represents a vertex in the graph
- * @property vertices the set of vertices in the graph
  * @constructor creates a graph with no vertices
  */
 class Graph<VertexType> {
@@ -12,6 +11,7 @@ class Graph<VertexType> {
      * @param VertexType the type of data a vertex stores in the graph
      * @property data the data of type VertexType to be stored by the vertex
      * @property edges a map in which each connected vertex is mapped to the weight of its edge
+     * @constructor creates a vertex with data and a map of edges of variable size
      */
     data class Vertex<VertexType>(val data: VertexType, val edges: MutableMap<VertexType, Double>)
 
