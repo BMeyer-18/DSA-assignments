@@ -124,7 +124,7 @@ fun testPopRoot() {
 }
 
 /**
- * Tests heap readjustment after updating values (greater and lesser values); uses booleans
+ * Tests heap readjustment after updating values (greater and lesser values); uses bytes
  * @throws RuntimeException if a test fails
  */
 fun testUpdateValue() {
@@ -148,9 +148,7 @@ fun testUpdateValue() {
         throw RuntimeException("Heap unordered after decreasing element value")
     if (heap.getRoot() != 5.toByte())
         throw RuntimeException("getRoot returned wrong root after decreasing element value")
-    println(heap.getValues())
     heap.updateValue(10.toByte(), 100.0)
-    println(heap.getValues())
     if (!isHeapOrdered(heap))
         throw RuntimeException("Heap unordered after increasing element value")
     heap.updateValue(2.toByte(), 10.0)
