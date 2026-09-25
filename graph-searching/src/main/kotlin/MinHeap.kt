@@ -47,12 +47,9 @@ class MinHeap<T> {
         if (heap.isEmpty())
             return null
         val data = heap[0].data
-        heap[0] = Node(data, Double.POSITIVE_INFINITY)
+        heap[0] = heap[heap.size-1]
+        heap.removeAt(heap.size-1)
         val newIdx = siftDown(0)
-        heap.removeAt(newIdx)
-        for (i in newIdx..<heap.size) {
-            siftUp(i)
-        }
         return data
     }
 

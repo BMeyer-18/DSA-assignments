@@ -127,4 +127,43 @@ class Graph<VertexType> {
             path.add(map[path.last()]!!)
         return path.asReversed()
     }
+
+    /**
+     * Searches through a weighted graph using Dijkstra's Algorithm to find
+     * the shortest path from the [start] vertex to the [target] vertex,
+     * taking edge weighting into account.
+     * @return the shortest path from the start to the target, as a list.
+     */
+    fun dijkstraSearch(start: VertexType, target: VertexType): List<VertexType>? {
+        val prev = mutableMapOf<VertexType, VertexType?>()
+        val dist = mutableMapOf<VertexType, Double>()
+        val queue = MinPriorityQueue<VertexType>()
+        getVertices().forEach{ vertex ->
+            prev[vertex] = null
+            dist[vertex] = Double.POSITIVE_INFINITY
+            queue.addWithPriority(vertex, Double.POSITIVE_INFINITY)
+        }
+
+        dist[start] = 0.0
+        queue.adjustPriority(start, 0.0)
+
+        while (!queue.isEmpty()) {
+            val vertex = queue.next()!!
+            getEdges(vertex).forEach{ (edge, weight) ->
+                val alt = dist[edge]!! + weight
+                if (alt < dist[edge]!!) {
+                    dist[edge] = alt
+                    queue.adjustPriority(edge, alt)
+                    prev[edge] = vertex
+                }
+            }
+        }
+
+        if (prev[target] == null)
+            return null
+        val path = mutableListOf<VertexType>(target)
+        while (start !in path)
+            path.add(prev[path[path.size-1]]!!)
+        return path
+    }
 }
