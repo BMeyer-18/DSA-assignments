@@ -9,6 +9,9 @@ fun testGraph() {
     testAddingVertices()
     testAddingEdges()
     testClearMap()
+    testBreadthFirstSearch()
+    testDepthFirstSearch()
+    testDijkstraSearch()
     println("Passed all tests for Graph class\n")
 }
 
@@ -87,4 +90,77 @@ fun testClearMap() {
         throw RuntimeException("Cleared vertex returned with edges")
 
     println("Passed all tests for clearing a filled graph")
+}
+
+/**
+ * Checks that the results of a breadth-first search on an unweighted
+ * graph are as expected; uses strings
+ * @throws RuntimeException if a test fails
+ */
+fun testBreadthFirstSearch() {
+    val graph = Graph<String>()
+    graph.addEdge("Start", "A", 1.0)
+    graph.addEdge("A", "E", 1.0)
+    graph.addEdge("E", "H", 1.0)
+    graph.addEdge("H", "Goal", 1.0)
+    graph.addEdge("E", "F", 1.0)
+    graph.addEdge("Start", "B", 1.0)
+    graph.addEdge("B", "D", 1.0)
+    graph.addEdge("Start", "C", 1.0)
+    graph.addEdge("C", "D", 1.0)
+
+    val path = graph.breadthFirstSearch("Start", "Goal")
+    if (path != listOf("Start", "A", "E", "H", "Goal"))
+        throw RuntimeException("Breadth-first search returned wrong path")
+
+    println("Passed test for breadth-first search")
+}
+
+/**
+ * Checks that the results of a depth-first search on an unweighted
+ * graph are as expected; uses strings
+ * @throws RuntimeException if a test fails
+ */
+fun testDepthFirstSearch() {
+    val graph = Graph<String>()
+    graph.addEdge("Start", "A", 1.0)
+    graph.addEdge("A", "E", 1.0)
+    graph.addEdge("E", "H", 1.0)
+    graph.addEdge("H", "Goal", 1.0)
+    graph.addEdge("E", "F", 1.0)
+    graph.addEdge("Start", "B", 1.0)
+    graph.addEdge("B", "D", 1.0)
+    graph.addEdge("Start", "C", 1.0)
+    graph.addEdge("C", "D", 1.0)
+
+    val path = graph.depthFirstSearch("Start", "Goal")
+    if (path != listOf("Start", "A", "E", "H", "Goal"))
+        throw RuntimeException("Depth-first search returned wrong path")
+
+    println("Passed test for depth-first search")
+}
+
+/**
+ * Checks that the results of a Dijkstra search on a weighted
+ * graph are as expected; uses strings
+ * @throws RuntimeException if a test fails
+ */
+fun testDijkstraSearch() {
+    val graph = Graph<String>()
+    graph.addEdge("Start", "A", 2.0)
+    graph.addEdge("A", "E", 1.0)
+    graph.addEdge("E", "H", 1.0)
+    graph.addEdge("H", "Goal", 1.0)
+    graph.addEdge("E", "F", 2.0)
+    graph.addEdge("Start", "B", 1.0)
+    graph.addEdge("B", "D", 3.0)
+    graph.addEdge("D", "Goal", 5.0)
+    graph.addEdge("Start", "C", 2.0)
+    graph.addEdge("C", "D", 1.0)
+
+    val path = graph.dijkstraSearch("Start", "Goal")
+    if (path != listOf("Start", "A", "E", "H", "Goal"))
+        throw RuntimeException("Dijkstra search returned wrong path")
+
+    println("Passed test for dijkstra search")
 }

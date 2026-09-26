@@ -146,11 +146,10 @@ class Graph<VertexType> {
 
         dist[start] = 0.0
         queue.adjustPriority(start, 0.0)
-
         while (!queue.isEmpty()) {
             val vertex = queue.next()!!
             getEdges(vertex).forEach{ (edge, weight) ->
-                val alt = dist[edge]!! + weight
+                val alt = dist[vertex]!! + weight
                 if (alt < dist[edge]!!) {
                     dist[edge] = alt
                     queue.adjustPriority(edge, alt)
@@ -164,6 +163,6 @@ class Graph<VertexType> {
         val path = mutableListOf<VertexType>(target)
         while (start !in path)
             path.add(prev[path[path.size-1]]!!)
-        return path
+        return path.asReversed()
     }
 }
