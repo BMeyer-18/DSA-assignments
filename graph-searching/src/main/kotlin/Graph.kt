@@ -160,7 +160,7 @@ class Graph<VertexType> {
 
         if (prev[target] == null)
             return null
-        val path = mutableListOf<VertexType>(target)
+        val path = mutableListOf(target)
         while (start !in path)
             path.add(prev[path[path.size-1]]!!)
         return path.asReversed()
