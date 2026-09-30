@@ -7,4 +7,5 @@ import kotlin.random.Random
 fun main() {
     testHeapSort()
     testRadixSort()
+    testMergeSort()
 }

@@ -33,6 +33,21 @@ fun testRadixSort() {
 }
 
 /**
+ * Tests merge sort for randomly generated lists of doubles, ensuring that
+ * elements are successfully sorted in ascending order.
+ * @throws RuntimeException if test fails
+ */
+fun testMergeSort() {
+    for (i in 0..<5) {
+        val unsortedList = (0 until 100).map { Random.nextDouble(1000.0) }
+        val sortedList = mergeSort(unsortedList)
+        if (!isSorted(sortedList))
+            throw RuntimeException("merge sort failed to sort list")
+    }
+    println("Passed test for merge sort")
+}
+
+/**
  * @return true if [list] is sorted in ascending order, false otherwise
  */
 fun isSorted(list: List<Double>): Boolean {
