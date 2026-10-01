@@ -3,6 +3,19 @@ package org.sorting_algorithms
 import kotlin.random.Random
 
 /**
+ * Tests all four implemented sorting algorithms, ensuring that elements
+ * are successfully sorted in ascending order.
+ * @throws RuntimeException if test fails
+ */
+fun testSortingAlgorithms() {
+    testHeapSort()
+    testRadixSort()
+    testMergeSort()
+    testInsertionSort()
+    println("Passed all tests for sorting algorithms\n")
+}
+
+/**
  * Tests heap sort for randomly generated lists of doubles, ensuring that
  * elements are successfully sorted in ascending order.
  * @throws RuntimeException if test fails
@@ -45,6 +58,21 @@ fun testMergeSort() {
             throw RuntimeException("merge sort failed to sort list")
     }
     println("Passed test for merge sort")
+}
+
+/**
+ * Tests insertion sort for randomly generated lists of doubles, ensuring that
+ * elements are successfully sorted in ascending order.
+ * @throws RuntimeException if test fails
+ */
+fun testInsertionSort() {
+    for (i in 0..<5) {
+        val unsortedList = (0 until 100).map { Random.nextDouble(1000.0) }
+        val sortedList = insertionSort(unsortedList)
+        if (!isSorted(sortedList))
+            throw RuntimeException("insertion sort failed to sort list")
+    }
+    println("Passed test for insertion sort")
 }
 
 /**
