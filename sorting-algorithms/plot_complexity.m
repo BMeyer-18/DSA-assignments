@@ -1,4 +1,4 @@
-data = table2array(readtable('./src/main/resources/runtimeData_5.csv'));
+data = table2array(readtable('./src/main/resources/runtimeData.csv'));
 size = data(:,1); heap = data(:,2); radix = data(:,3); merge = data(:,4); insertion = data(:,5);
 
 f1 = figure;
