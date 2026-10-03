@@ -2,7 +2,7 @@
 
 ## Introduction
 
-For this assignment, I decided to implement and analyze _Heap Sort_ ($\Theta(n\ log\ n)$),  _Radix Sort_ ($\Theta(d\times n)$), _Merge Sort_ ($\Theta(n\ log\ n)$), and _Insertion Sort_ ($\Theta(n^2)$).  
+For this assignment, I decided to implement and analyze _Heap Sort_ ( $\Theta(n\ log\ n)$ ),  _Radix Sort_ ( $\Theta(d\times n)$ ), _Merge Sort_ ( $\Theta(n\ log\ n)$ ), and _Insertion Sort_ ( $\Theta(n^2)$ ).  
 
 The code is written in the individual files in the `src/main/kotlin` folder, unit tests are in the `UnitTests.kt` file, and the runtime measurement and CSV conversion are in `Main.kt`. My work on the Master Theorem worksheet is in `master_theorem_worksheet.pdf`, and I made my plots using MATLAB in `plot_complexity.m`  
 
