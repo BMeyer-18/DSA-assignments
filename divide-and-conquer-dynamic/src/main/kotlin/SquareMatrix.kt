@@ -3,18 +3,18 @@ package org.example
 /**
  * Class for storing and performing operations on square matrices.
  * @property size the number of rows in the matrix, which is equal to the number of columns.
- * @property fillVal the integer value to set each initial value to. Defaults to 0.
+ * @property fillVal the double value to set each initial value to. Defaults to 0.
  * @constructor creates a square matrix of the specified size, filled with [fillVal].
  */
-class SquareMatrix(val size: Int, val fillVal: Int = 0) {
-    val matrix = Array<Array<Int>>(size) { Array<Int>(size) { fillVal } }
+class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
+    val matrix = Array(size) { DoubleArray(size) { fillVal } }
 
     /**
      * Overrides the [i, j] get operator, getting the value at the specified [row] and
      * [col] in the matrix.
-     * @return the integer value in that index of the square matrix
+     * @return the double value in that index of the square matrix
      */
-    operator fun get(row: Int, col: Int): Int {
+    operator fun get(row: Int, col: Int): Double {
         return matrix[row][col]
     }
 
@@ -22,7 +22,7 @@ class SquareMatrix(val size: Int, val fillVal: Int = 0) {
      * Overrides the [i, j] set operator, setting the value at the specified [row] and
      * [col] in the matrix to the [value].
      */
-    operator fun set(row: Int, col: Int, value: Int) {
+    operator fun set(row: Int, col: Int, value: Double) {
         matrix[row][col] = value
     }
 
