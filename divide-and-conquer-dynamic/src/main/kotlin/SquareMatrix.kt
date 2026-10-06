@@ -41,13 +41,6 @@ class SquareMatrix(val size: Int, val fillVal: Int = 0) {
     }
 
     /**
-     * @return the number of rows of the matrix, which is equal to the number of columns
-     */
-    //fun getSize(): Int {
-    //    return matrix.size
-    //}
-
-    /**
      * Splits the matrix into quarters as a block matrix.
      * @return a list of the quarters, in quadrant order (top right, top left,
      * bottom left, bottom right)
