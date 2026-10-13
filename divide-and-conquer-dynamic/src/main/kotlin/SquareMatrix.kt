@@ -7,7 +7,7 @@ package org.example
  * @constructor creates a square matrix of the specified size, filled with [fillVal].
  */
 class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
-    val matrix = Array(size) { DoubleArray(size) { fillVal } }
+    private val matrix = Array(size) { DoubleArray(size) { fillVal } }
 
     /**
      * Overrides the [i, j] get operator, getting the value at the specified [row] and
@@ -42,6 +42,18 @@ class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
     }
 
     /**
+     * @return the sum of this square matrix and a scalar double [other].
+     * @throws ArithmeticException if arrays have different sizes
+     */
+    operator fun plus(other: Double): SquareMatrix {
+        val sum = SquareMatrix(size)
+        for (r in 0..<size)
+            for (c in 0..<size)
+                sum[r, c] = matrix[r][c] + other
+        return sum
+    }
+
+    /**
      * @return the difference between this square matrix and a square matrix [other] of the
      * same size, or null if they have different sizes.
      * @throws ArithmeticException if arrays have different sizes
@@ -53,6 +65,18 @@ class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
         for (r in 0..<size)
             for (c in 0..<size)
                 difference[r, c] = matrix[r][c] - other[r, c]
+        return difference
+    }
+
+    /**
+     * @return the difference between this square matrix and a scalar double [other].
+     * @throws ArithmeticException if arrays have different sizes
+     */
+    operator fun minus(other: Double): SquareMatrix {
+        val difference = SquareMatrix(size)
+        for (r in 0..<size)
+            for (c in 0..<size)
+                difference[r, c] = matrix[r][c] - other
         return difference
     }
 
@@ -69,6 +93,18 @@ class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
             for (c in 0..<size)
                 for (i in 0..<size)
                     product[r, c] += matrix[r][i] * other[i, c]
+        return product
+    }
+
+    /**
+     * @return the product of this square matrix and a scalar double [other].
+     * @throws ArithmeticException if arrays have different sizes
+     */
+    operator fun times(other: Double): SquareMatrix {
+        val product = SquareMatrix(size)
+        for (r in 0..<size)
+            for (c in 0..<size)
+                product[r, c] = matrix[r][c] * other
         return product
     }
 
@@ -108,7 +144,6 @@ class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
                 product[r+size/2, c+size/2] = product11[r, c]
             }
         }
-
         return product
     }
 
@@ -148,9 +183,7 @@ class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
      * @return hash code based on size and contents of matrix
      */
     override fun hashCode(): Int {
-        var result = size
-        result = 31 * result + matrix.contentDeepHashCode()
-        return result
+        return 31 * size + matrix.contentDeepHashCode()
     }
 
     /**
