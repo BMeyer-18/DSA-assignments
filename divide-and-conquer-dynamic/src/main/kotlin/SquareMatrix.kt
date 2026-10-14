@@ -148,6 +148,46 @@ class SquareMatrix(val size: Int, val fillVal: Double = 0.0) {
     }
 
     /**
+     * Multiply this matrix by [other], following Strassen's algorithm for larger matrices and
+     * regular matrix multiplication for smaller matrices. Switches at size 128.
+     * @return this*[other] if the dimensions are compatible and null otherwise
+     * @throws ArithmeticException if arrays have different sizes
+     */
+    fun hybridMultiply(other: SquareMatrix): SquareMatrix {
+        if (size != other.size)
+            throw ArithmeticException("Arrays have different sizes")
+        if (size <= 1000)
+            return this*other
+
+        val blocksA = getQuarters()
+        val blocksB = other.getQuarters()
+        val mults = Array(7) { SquareMatrix(size/2) }
+        mults[0] = (blocksA[1] + blocksA[3]).strassenMultiply(blocksB[1] + blocksB[3])
+        mults[1] = (blocksA[2] + blocksA[3]).strassenMultiply(blocksB[1])
+        mults[2] = blocksA[1].strassenMultiply(blocksB[0] - blocksB[3])
+        mults[3] = blocksA[3].strassenMultiply(blocksB[2] - blocksB[1])
+        mults[4] = (blocksA[1] + blocksA[0]).strassenMultiply(blocksB[3])
+        mults[5] = (blocksA[2] - blocksA[1]).strassenMultiply(blocksB[1] + blocksB[0])
+        mults[6] = (blocksA[0] - blocksA[3]).strassenMultiply(blocksB[2] + blocksB[3])
+
+        val product00 = mults[0]+mults[3]-mults[4]+mults[6]
+        val product01 = mults[2]+mults[4]
+        val product10 = mults[1]+mults[3]
+        val product11 = mults[0]-mults[1]+mults[2]+mults[5]
+
+        val product = SquareMatrix(size, 0.0)
+        for (r in 0..<size/2) {
+            for (c in 0..<size/2) {
+                product[r, c] = product00[r, c]
+                product[r, c+size/2] = product01[r, c]
+                product[r+size/2, c] = product10[r, c]
+                product[r+size/2, c+size/2] = product11[r, c]
+            }
+        }
+        return product
+    }
+
+    /**
      * Splits the matrix into quarters as a block matrix.
      * @return a list of the quarters, in quadrant order (top right, top left,
      * bottom left, bottom right)
