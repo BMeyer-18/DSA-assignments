@@ -4,7 +4,7 @@ Benjamin Meyer
 ## Matrix Multiplication
 I implemented the traditional matrix multiplication algorithm and the Strassen matrix multiplication algorithm in my `SquareMatrix` class, and ran unit tests in the `TestSquareMatrix.kt` file. Traditional matrix multiplication should be in $\Theta(n^3)$, and Strassen matrix multiplication should be in $\Theta(n^{log_27})$.  
 
-However, the recursive call stack for the Strassen algorithm can add considerablly to the function's runtime, so for smaller matrices, the regular algorithm is actually faster. To take this into account, we can use a hybrid approach that performs traditional matrix mutliplication for smaller matrices and uses the Strassen algorithm only for much larger matrices. The runtimes of the traditional, Strassen, and hybrid algorithms for matrices of various sizes are shownn in Fig 1.
+However, the recursive call stack for the Strassen algorithm can add considerablly to the function's runtime, so for smaller matrices, the regular algorithm is actually faster. To take this into account, we can use a hybrid approach that performs traditional matrix mutliplication for smaller matrices and uses the Strassen algorithm only for much larger matrices. The runtimes of the traditional, Strassen, and hybrid algorithms for matrices of various sizes are shown in Fig 1.
 
 ![Plot showing runtimes for the traditional, Strassen, and hybrid matrix multiplication algorithms](./runtimes.png)
 ___Figure 1:__ A plot showing runtimes for the traditional, Strassen, and hybrid matrix multiplication algorithms vs the size of the matrices being multiplied with a log-log scale. The data can be found at `/src/main/resources/runtimeData.csv`._  
