@@ -30,8 +30,6 @@ fun alignGlobally(seq1: String, seq2: String): Pair<Int, List<String>> {
         }
     }
 
-    println(table.contentDeepToString())
-
     // backtracking through table to show sequences
     var seq1Alignment = ""
     var seq2Alignment = ""
@@ -58,10 +56,14 @@ fun alignGlobally(seq1: String, seq2: String): Pair<Int, List<String>> {
     }
 
     // for any leftover values of r or c, add dashes to the beginning of their alignment strings
-    for (i in 0..<r)
+    for (i in r-1 downTo 0) {
+        seq1Alignment = seq1[i].toString() + seq1Alignment
         seq2Alignment = "-$seq2Alignment"
-    for (i in 0..<c)
+    }
+    for (i in c-1 downTo 0) {
         seq1Alignment = "-$seq1Alignment"
+        seq2Alignment = seq2[i].toString() + seq2Alignment
+    }
 
     return Pair(table[seq1.length][seq2.length], listOf(seq1Alignment, seq2Alignment))
 }

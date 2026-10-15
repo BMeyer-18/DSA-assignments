@@ -13,11 +13,10 @@ import com.opencsv.CSVWriter
  * Main function runs unit tests and saves multiplication time data
  */
 fun main() {
-    //testSquareMatrix()
+    testSquareMatrix()
+    testAlignSequences()
 
     //writeRuntimeData("src/main/resources/runtimeData.csv")
-
-    println(getRuntimes(4096).map { it.toString() }.toTypedArray().contentToString())
 
     alignSampleGenomes()
 }
