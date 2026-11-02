@@ -5,4 +5,6 @@ package org.example
  */
 fun main() {
     testAssociativeArray()
+    val compressedData = encodeLZ("BAABABBCABCBABC")
+    println(compressedData)
 }
