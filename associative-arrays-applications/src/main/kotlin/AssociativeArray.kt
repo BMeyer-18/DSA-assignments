@@ -8,8 +8,8 @@ import java.io.File
  * @param V the type of the values
  * @constructor creates an empty associative array with no key/value pairs
  */
-class AssociativeArray<K,V> {
-    private var table = HashTable<K,V>()
+class AssociativeArray<K,V>(val initialSize: Int = 53) {
+    private var table = HashTable<K,V>(initialSize)
 
     /**
      * Insert the mapping from the key, [k], to the value, [v].

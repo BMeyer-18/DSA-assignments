@@ -133,6 +133,6 @@ class HashTable<K, V>(val size: Int = 53) {
      * @return the hash code of the key [k]
      */
     private fun getHash(k: K): Int {
-        return k.hashCode() % size
+        return kotlin.math.abs(k.hashCode()) % size
     }
 }
