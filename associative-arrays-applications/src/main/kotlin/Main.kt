@@ -5,6 +5,8 @@ package org.example
  */
 fun main() {
     testAssociativeArray()
-    val compressedData = encodeLZ("BAABABBCABCBABC")
-    println(compressedData)
+    val (bitString, table) = encodeLZ("BAABABBCABCBABC")
+    val string = decodeLZ(bitString, table)
+    println(bitString)
+    println(string)
 }
