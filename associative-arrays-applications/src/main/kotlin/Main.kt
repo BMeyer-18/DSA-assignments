@@ -4,7 +4,8 @@ import kotlin.math.pow
 import java.io.File
 
 /**
- * Runs unit tests on AssociativeArray class, and runs Lempel-Ziv encoding and decoding
+ * Runs unit tests on AssociativeArray class, runs Lempel-Ziv encoding and decoding,
+ * tests compression ratio of Lempel-Ziv at various lengths and saves to file
  */
 fun main() {
     // run unit tests
@@ -20,22 +21,22 @@ fun main() {
 
     // run Lempel-Ziv on strings of increasing length to get compression ratio
     val chars = 'A'..'Z'
-    val compressions = DoubleArray(10)
+    val compressions = DoubleArray(200)
     for (i in compressions.indices) {
-        for (rep in 0..<5) {
+        for (rep in 0..<10) {
             var string = ""
-            for (char in 0..<2.0.pow(i).toInt())
+            for (char in 0..<i+1)
                 string += chars.random().toString()
             compressions[i] += calculateCompressionRatio(string)
         }
-        compressions[i] /= 5
+        compressions[i] /= 10
     }
 
     // write Lempel-Ziv compression ratios to csv
     File("src/main/resources/compressionRatios.csv").printWriter().use { out ->
         out.println("size,ratio")
         for (idx in compressions.indices)
-            out.println("${2.0.pow(idx).toInt()},${compressions[idx]}")
+            out.println("${idx+1},${compressions[idx]}")
     }
 }
 
