@@ -1,12 +1,53 @@
 package org.example
 
+import kotlin.math.pow
+import java.io.File
+
 /**
- * Runs unit tests on AssociativeArray class
+ * Runs unit tests on AssociativeArray class, and runs Lempel-Ziv encoding and decoding
  */
 fun main() {
+    // run unit tests
     testAssociativeArray()
-    val (bitString, table) = encodeLZ("BAABABBCABCBABC")
+
+    // test Lempel-Ziv on example I worked through in class
+    val initialString = "BAABABBCABCBABC"
+    val (bitString, table) = encodeLZ(initialString)
     val string = decodeLZ(bitString, table)
     println(bitString)
     println(string)
+    print(initialString == string)
+
+    // run Lempel-Ziv on strings of increasing length to get compression ratio
+    val chars = 'A'..'Z'
+    val compressions = DoubleArray(10)
+    for (i in compressions.indices) {
+        for (rep in 0..<5) {
+            var string = ""
+            for (char in 0..<2.0.pow(i).toInt())
+                string += chars.random().toString()
+            compressions[i] += calculateCompressionRatio(string)
+        }
+        compressions[i] /= 5
+    }
+
+    // write Lempel-Ziv compression ratios to csv
+    File("src/main/resources/compressionRatios.csv").printWriter().use { out ->
+        out.println("size,ratio")
+        for (idx in compressions.indices)
+            out.println("${2.0.pow(idx).toInt()},${compressions[idx]}")
+    }
+}
+
+/**
+ * Runs Lempel-Ziv compression on a [string] and calculates the compression ratio,
+ * assuming each character in the string is a byte and each byte in the compressed
+ * string is composed of 8 binary digits.
+ * @return compression ratio (original size / compressed size)
+ */
+fun calculateCompressionRatio(string: String): Double {
+    val strBytes = string.length
+    val (bitString, _) = encodeLZ(string)
+    val compressedBytes = kotlin.math.ceil(bitString.length/8.0)
+    return strBytes.toDouble() / compressedBytes
 }

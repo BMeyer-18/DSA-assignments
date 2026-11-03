@@ -12,12 +12,12 @@ fun encodeLZ(string: String): Pair<String, AssociativeArray<String, Char>> {
     val codes = AssociativeArray<Char, String>()
     val reverseCodes = AssociativeArray<String, Char>()
     val sequences = mutableListOf<String>()
-    val references = AssociativeArray<Int, Pair<Int, Char>>()
     val chars = string.toList().distinct()
     var bitString = ""
 
     // assign a binary code of the same length to each unique character
-    val codeLength = ceil(log2(chars.size.toDouble())).toInt()
+    val codeLength = if (chars.size == 1) 1
+        else ceil(log2(chars.size.toDouble())).toInt()
     for (i in chars.indices) {
         codes[chars[i]] = padBitString(Integer.toBinaryString(i), codeLength)
         reverseCodes[codes[chars[i]]!!] = chars[i]
@@ -25,21 +25,21 @@ fun encodeLZ(string: String): Pair<String, AssociativeArray<String, Char>> {
 
     // iterate through string, adding new sequences where they appear to table and bit string
     var currentString = ""
-    for (i in string.indices) {
-        currentString += string[i]
+    for (char in string) {
+        currentString += char
         if (currentString !in sequences) {
             val reference = if (currentString.length == 1) 0
                 else sequences.indexOf(currentString.substring(0,currentString.length-1))+1
             sequences.add(currentString)
-            references[sequences.size] = Pair(reference, string[i])
             bitString += padBitString(Integer.toBinaryString(reference), ceil(log2(sequences.size.toDouble())).toInt())
-            bitString += codes[string[i]]
+            bitString += codes[char]
             currentString = ""
         }
     }
 
     // add to butString if a repeated substring is present in currentString
-    bitString += padBitString(Integer.toBinaryString(sequences.indexOf(currentString)), ceil(log2(sequences.size.toDouble())).toInt())
+    if (currentString.isNotEmpty())
+        bitString += padBitString(Integer.toBinaryString(sequences.indexOf(currentString)+1), ceil(log2(sequences.size + 1.0)).toInt())
 
     return Pair(bitString, reverseCodes)
 }
@@ -51,7 +51,8 @@ fun encodeLZ(string: String): Pair<String, AssociativeArray<String, Char>> {
  */
 fun decodeLZ(bitString: String, codes: AssociativeArray<String, Char>): String {
     // find number of bits for each character
-    val charBits = ceil(log2(codes.size().toDouble())).toInt()
+    val charBits = if (codes.size() == 1) 1
+        else ceil(log2(codes.size().toDouble())).toInt()
 
     // decode each individual sequence from the bit string
     val sequences = mutableListOf("", codes[bitString.substring(0,charBits)].toString())
@@ -67,7 +68,9 @@ fun decodeLZ(bitString: String, codes: AssociativeArray<String, Char>): String {
     }
 
     // use sequences to recreate original string
-    return sequences.joinToString("") + (codes[remainingBitString] ?: "")
+    if (remainingBitString.isEmpty())
+        remainingBitString = "0"
+    return sequences.joinToString("") + (sequences[remainingBitString.toInt(2)])
 }
 
 /**
