@@ -7,16 +7,12 @@ import kotlin.random.Random
  * [left] and [right] of a [list] of points
  */
 fun quickselect(list: Array<DoubleArray>, dim: Int, left: Int=0, right: Int=list.size-1, k: Int=list.size/2): Double {
-    println("l=$left, r=$right")
-    println(list.contentDeepToString())
     // if there is only one element in the range, return it
     if (left == right)
         return list[left][dim]
 
     // partition list
     val idx = partition(list, dim, left=left, right=right)
-    println(list.contentDeepToString())
-    println(idx)
 
     // if item is in queried position, return item
     if (idx == k)

@@ -13,7 +13,10 @@ fun main() {
                         doubleArrayOf(4.0, 1.0),
                         doubleArrayOf(3.0, 8.0))
 
-    val xmedian = quickselect(array, 0)
-    val ymedian = quickselect(array, 1)
-    println("($xmedian, $ymedian)")
+    val tree = buildKDTree(array)
+    val closestKD = searchKDTree(tree, doubleArrayOf(1.9, 0.01))
+    val closestBFS = searchBruteForce(array, doubleArrayOf(1.9, 0.01))
+
+    println(closestKD.contentToString())
+    println(closestBFS.contentToString())
 }
