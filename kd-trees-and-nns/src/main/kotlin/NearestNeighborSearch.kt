@@ -3,12 +3,18 @@ package org.example
 import kotlin.math.pow
 
 /**
- *
+ * Represents a node in a binary K-D tree.
+ * @property median the median of the data points along a particular axis
+ * @property left the left child of the node
+ * @property right the right child of the node
+ * @property value if the node is a leaf, all other properties are null and this stores a point
  */
 data class Node(val median: Double?, var left: Node? = null, var right: Node? = null, val value: DoubleArray? = null)
 
 /**
- *
+ * Builds a K-D Tree based on [data] recursively, splitting by the median of the next
+ * dimension [dim] with every recursion.
+ * @return root node of the K-D tree, linked to its children and the median value.
  */
 fun buildKDTree(data: Array<DoubleArray>, dim: Int = 0): Node {
     // base case: if the list has just one element, return it as a leaf
@@ -36,7 +42,10 @@ fun buildKDTree(data: Array<DoubleArray>, dim: Int = 0): Node {
 }
 
 /**
- *
+ * Searches through a KD [tree] to find the closest point to a [query] point, following the
+ * dimension [dim] that increments or resets to 0 every iteration. After reaching a leaf,
+ * it recursively goes back up the tree and compares the closest point to the median line.
+ * If the median line is closer than the point; go down the alternate branch too.
  */
 fun searchKDTree(tree: Node, query: DoubleArray, dim: Int = 0): DoubleArray {
     // if the node is a leaf, return its value
@@ -64,7 +73,8 @@ fun searchKDTree(tree: Node, query: DoubleArray, dim: Int = 0): DoubleArray {
 }
 
 /**
- *
+ * Checks the distance from a [query] point to every [data] point one by one, finding the closest point.
+ * @return closest data point to query point.
  */
 fun searchBruteForce(data: Array<DoubleArray>, query: DoubleArray): DoubleArray {
     // set initial closest point to first point
@@ -80,7 +90,7 @@ fun searchBruteForce(data: Array<DoubleArray>, query: DoubleArray): DoubleArray 
 }
 
 /**
- *
+ * @return Euclidean distance between [point1] and [point2]
  */
 fun calculateDist(point1: DoubleArray, point2: DoubleArray): Double {
     if (point1.size != point2.size)
