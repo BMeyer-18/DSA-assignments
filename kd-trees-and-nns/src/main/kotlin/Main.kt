@@ -52,7 +52,7 @@ fun writeBenchmarkData() {
 
     // write data to csv
     File("src/main/resources/NNS_Benchmarks.csv").printWriter().use { out ->
-        out.println("KDBuild,KDSearch,BFSearch")
+        out.println("Points,Dims,KDBuild,KDSearch,BFSearch")
         for (i in inputs[0].indices)
             out.println("${inputs[0][i]},${inputs[1][i]},${times[0][i]},${times[1][i]},${times[2][i]}")
     }
