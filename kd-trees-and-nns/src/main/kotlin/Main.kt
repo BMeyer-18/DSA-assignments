@@ -41,12 +41,19 @@ fun writeBenchmarkData() {
         val numPoints = 10.0.pow(i).toInt()
         for (j in 1..6) {
             val k = 2.0.pow(j).toInt()
-            val durations = runExperiment(k, numPoints)
             inputs[0].add(numPoints)
             inputs[1].add(k)
-            times[0].add(durations.component1().toDouble(DurationUnit.SECONDS))
-            times[1].add(durations.component2().toDouble(DurationUnit.SECONDS))
-            times[2].add(durations.component3().toDouble(DurationUnit.SECONDS))
+            for (i in times.indices)
+                times[i].add(0.0)
+            // repeat measurements and find average
+            for (i in 0..<5) {
+                val durations = runExperiment(k, numPoints)
+                times[0][times[0].size-1] += durations.component1().toDouble(DurationUnit.SECONDS)
+                times[1][times[1].size-1] += durations.component2().toDouble(DurationUnit.SECONDS)
+                times[2][times[2].size-1] += durations.component3().toDouble(DurationUnit.SECONDS)
+            }
+            for (i in times.indices)
+                times[i][times[i].size-1] /= 5.0
         }
     }
 
